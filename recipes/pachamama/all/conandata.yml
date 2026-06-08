@@ -1,0 +1,4 @@
+sources:
+  "0.1.0":
+    url: "https://api.github.com/repos/chakana-capital/pachamama/tarball/v0.1.0"
+    sha256: "eea1d3befe18828082e3786be9e8c8dad39762b69baedb3e301e1e285bd59d9e"
