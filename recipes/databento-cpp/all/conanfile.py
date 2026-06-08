@@ -14,21 +14,29 @@ class DatabentoCppConan(ConanFile):
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {"shared": False, "fPIC": True}
 
-    # databento-cpp's REQUIRED find_package deps (all on conancenter). The
-    # DATABENTO_USE_EXTERNAL_* toggles below make databento consume THESE
-    # instead of git-fetching them itself -- so the build is fully declared,
-    # reproducible, and offline-friendly (no FetchContent).
-    requires = (
-        "openssl/3.6.2",
-        "zstd/1.5.7",
-        "nlohmann_json/3.12.0",
-        "cpp-httplib/0.46.1",
-        "date/3.0.4",
-    )
-
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
+
+    def requirements(self):
+        # databento-cpp's deps (all on ConanCenter). databento links ALL of
+        # these PUBLIC (its CMakeLists target_link_libraries(... PUBLIC ...))
+        # and its INSTALLED public headers #include them:
+        #   exceptions.hpp -> <httplib.h>, <nlohmann/json.hpp>
+        #   (others)       -> <date/date.h>, <zstd.h>, <openssl/...>
+        #
+        # transitive_headers=True is the load-bearing trait: it tells Conan
+        # these deps' headers are part of databento's OWN public interface, so
+        # (a) Conan propagates their include dirs onto consumers, and (b) it
+        # does NOT skip their binaries (header-only cpp-httplib would otherwise
+        # be "binary: Skip", giving consumers "httplib.h: No such file").
+        # With this, a consumer needs only find_package(databento) -- no
+        # per-consumer knowledge of databento's deps, no include-path grafting.
+        self.requires("openssl/3.6.2", transitive_headers=True, transitive_libs=True)
+        self.requires("zstd/1.5.7", transitive_headers=True, transitive_libs=True)
+        self.requires("nlohmann_json/3.12.0", transitive_headers=True)
+        self.requires("cpp-httplib/0.46.1", transitive_headers=True)
+        self.requires("date/3.0.4", transitive_headers=True, transitive_libs=True)
 
     def source(self):
         # Pinned source (url + sha256) from conandata.yml -- verified on fetch.
@@ -66,3 +74,17 @@ class DatabentoCppConan(ConanFile):
         self.cpp_info.set_property("cmake_file_name", "databento")
         self.cpp_info.set_property("cmake_target_name", "databento::databento")
         self.cpp_info.libs = ["databento"]
+        # databento links ALL of these PUBLIC (transitive to consumers; see
+        # its CMakeLists target_link_libraries(... PUBLIC ...)). Its installed
+        # public headers #include <httplib.h>, <nlohmann/json.hpp>,
+        # <date/date.h>, <zstd.h>. Declaring cpp_info.requires makes CMakeDeps
+        # propagate every dep's include dirs + links onto databento::databento,
+        # so a consumer needs NOTHING beyond find_package(databento). Without
+        # this, the consumer's compile fails to find those headers.
+        self.cpp_info.requires = [
+            "date::date",
+            "cpp-httplib::cpp-httplib",
+            "nlohmann_json::nlohmann_json",
+            "openssl::openssl",
+            "zstd::zstd",
+        ]
