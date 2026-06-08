@@ -1,0 +1,4 @@
+sources:
+  "0.57.0":
+    url: "https://github.com/databento/databento-cpp/archive/refs/tags/v0.57.0.tar.gz"
+    sha256: "e08e9364af179de7daa16a4945f0ad4612e5d06365148f44ce505a97bb0dac99"

@@ -1,0 +1,5 @@
+# Conan build/test scratch -- recipes are the only committed content.
+test_package/build/
+*.tgz
+*.tar.gz
+__pycache__/
