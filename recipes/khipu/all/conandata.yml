@@ -1,0 +1,4 @@
+sources:
+  "0.1.0":
+    url: "https://api.github.com/repos/chakana-capital/khipu/tarball/v0.1.0"
+    sha256: "b0d1222278f88bd7562e7c4845dfbf0b64bc5966fa9108e95ef1132b0715a48e"
