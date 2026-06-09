@@ -1,12 +1,10 @@
 sources:
   # 0.2.1: spec-ownership split -- 8 research specs migrated out to yachay;
   # khipu keeps the 2 test-fixture specs + the spec-compilation toolchain.
-  # sha256 is a PLACEHOLDER: after `git tag v0.2.1 && git push --tags` on
-  # chakana-capital/khipu, download the tarball and replace REPLACE_AFTER_TAG
-  # with its real sha256 (see other entries for the format).
+  # sha256 is the v0.2.1 tag tarball, verified 2026-06-09.
   "0.2.1":
     url: "https://api.github.com/repos/chakana-capital/khipu/tarball/v0.2.1"
-    sha256: "REPLACE_AFTER_TAG"
+    sha256: "6068f0bf2e1604ef253f2e86e7bc84d021970e59050b55e5737be3720f73dafd"
   "0.2.0":
     url: "https://api.github.com/repos/chakana-capital/khipu/tarball/v0.2.0"
     sha256: "14cb96509c6259269558ec9b7a3db3afdbfc5ccff5ba56817fd59df59803a3a1"
