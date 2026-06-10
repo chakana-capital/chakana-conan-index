@@ -1,4 +1,12 @@
 sources:
+  # 0.1.1 (2026-06-10): control-plane fixes -- RING_BUSY duplicate
+  # rejection, typed per-tag error responses, invalidate/status parse
+  # validation. C++ Conan package only; the wheel is versioned apart.
+  # sha256 is REPLACE_AFTER_TAG: fill in after `git tag v0.1.1 && push`
+  # on chakana-capital/pachamama (download the tarball, sha256sum it).
+  "0.1.1":
+    url: "https://api.github.com/repos/chakana-capital/pachamama/tarball/v0.1.1"
+    sha256: "REPLACE_AFTER_TAG"
   "0.1.0":
     url: "https://api.github.com/repos/chakana-capital/pachamama/tarball/v0.1.0"
     sha256: "eea1d3befe18828082e3786be9e8c8dad39762b69baedb3e301e1e285bd59d9e"
